@@ -12,6 +12,16 @@ const types = ['product', 'coupon', 'user']
 
 export const start = async () => {
   const rootSchema = `
+    union Result = Book | Author
+
+    type Book {
+      title: String
+    }
+
+    type Author {
+      title: String
+      name: String
+    }
 
     interface Animal {
       species: String!
@@ -29,6 +39,7 @@ export const start = async () => {
 
     type Query {
       animals: [Animal]
+      search: [Result]
     }
 
     schema {
@@ -52,11 +63,34 @@ export const start = async () => {
               species: 'Tiger'
             }
           ]
+        },
+        search() {
+          return [
+            {
+              title: 'teste'
+            },
+            {
+              title: 'e nois',
+              name: 'Titulo'
+            }
+          ]
         }
       },
       Animal: {
-        __resolveType(animal){
+        __resolveType(animal) {
           return animal.species
+        }
+      },
+      Result: {
+        __resolveType(obj, context, info) {
+
+          if (obj.name) {
+            return 'Author'
+          }
+
+          if (obj.title) {
+            return 'Book'
+          }
         }
       }
     }
