@@ -57,12 +57,20 @@ export const start = async () => {
     typeDefs: [rootSchema],
     resolvers: {
       Query: {
+        /*
+        exmplo de querie
+        Na chaamda elee procura primeiro a query como ele retorna ele procura uma reolver de tipo
+        */
         book() {
+          // throw new Error('ops');
           return {}
         },
         author() {
           return {}
         },
+        // fim exmplo de querie
+
+        // exemplo de inteface
         animals() {
           return [
             {
@@ -84,9 +92,7 @@ export const start = async () => {
               name: 'Titulo'
             }
           ]
-        },
-        // exmplo de querie
-
+        }
       },
       Animal: {
         __resolveType(animal) {
