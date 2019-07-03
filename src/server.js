@@ -16,11 +16,13 @@ export const start = async () => {
 
     type Book {
       title: String
+      author: Author
     }
 
     type Author {
       title: String
       name: String
+      book: [Book]
     }
 
     interface Animal {
@@ -40,6 +42,8 @@ export const start = async () => {
     type Query {
       animals: [Animal]
       search: [Result]
+      book: Book
+      author: Author
     }
 
     schema {
@@ -53,6 +57,12 @@ export const start = async () => {
     typeDefs: [rootSchema],
     resolvers: {
       Query: {
+        book() {
+          return {}
+        },
+        author() {
+          return {}
+        },
         animals() {
           return [
             {
@@ -74,7 +84,9 @@ export const start = async () => {
               name: 'Titulo'
             }
           ]
-        }
+        },
+        // exmplo de querie
+
       },
       Animal: {
         __resolveType(animal) {
@@ -83,7 +95,6 @@ export const start = async () => {
       },
       Result: {
         __resolveType(obj, context, info) {
-
           if (obj.name) {
             return 'Author'
           }
@@ -91,6 +102,19 @@ export const start = async () => {
           if (obj.title) {
             return 'Book'
           }
+        }
+      },
+      Author: {
+        name() {
+          return 'nome do author'
+        }
+      },
+      Book: {
+        title() {
+          return 'title'
+        },
+        author() {
+          return {}
         }
       }
     }
